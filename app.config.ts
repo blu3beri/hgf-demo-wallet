@@ -1,7 +1,8 @@
 import { ExpoConfig } from '@expo/config-types'
 
 const config: ExpoConfig = {
-  name: 'demo-wallet-hyperledger',
+  name: 'Demo Wallet',
+  owner: "hgf-workshop",
   slug: 'demo-wallet-hyperledger',
   version: '1.0.0',
   orientation: 'portrait',
