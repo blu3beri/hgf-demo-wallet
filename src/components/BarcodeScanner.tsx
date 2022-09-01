@@ -17,14 +17,16 @@ export const BarcodeScanner = () => {
   const [scannedData, setScannedData] = useState('')
 
   const onAcceptInvitation = async () => {
-    await agent?.oob.receiveInvitationFromUrl(scannedData).catch((e) => {
-      toast.show({
-        placement: 'top',
-        title: 'Something went wrong while accepting the notification',
-        background: colors.error[500],
+    await agent?.oob
+      .receiveInvitationFromUrl(scannedData, { reuseConnection: true })
+      .catch((e) => {
+        toast.show({
+          placement: 'top',
+          title: 'Something went wrong while accepting the notification',
+          background: colors.error[500],
+        })
+        console.error(e)
       })
-      console.error(e)
-    })
     navigation.goBack()
   }
 
@@ -40,22 +42,27 @@ export const BarcodeScanner = () => {
   useEffect(() => {
     if (!scannedData) return
 
-    try {
-      const invite = ConnectionInvitationMessage.fromUrl(scannedData)
-
-      Alert.alert('Invitation', `Received invitation from: ${invite.label}`, [
-        { text: 'cancel', onPress: () => navigation.goBack(), style: 'cancel' },
-        { text: 'confirm', onPress: () => void onAcceptInvitation() },
-      ])
-    } catch {
-      toast.show({
-        placement: 'top',
-        title: 'Invalid invitation',
-        background: colors.error[500],
+    agent?.oob
+      .parseInvitationShortUrl(scannedData)
+      .then((invite) => {
+        Alert.alert('Invitation', `Received invitation from: ${invite.label}`, [
+          {
+            text: 'cancel',
+            onPress: () => navigation.goBack(),
+            style: 'cancel',
+          },
+          { text: 'confirm', onPress: () => void onAcceptInvitation() },
+        ])
       })
-      navigation.goBack()
-      return
-    }
+      .catch((error) => {
+        console.error(error)
+        toast.show({
+          placement: 'top',
+          title: 'Invalid invitation',
+          background: colors.error[500],
+        })
+        navigation.goBack()
+      })
   }, [scannedData])
 
   const handleBarCodeScanned = ({ data }) => setScannedData(data)
