@@ -17,10 +17,10 @@
   dependencies:
     "@expo/config-plugins" "~4.1.4"
 
-"@aries-framework/core@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@aries-framework/core/-/core-0.2.2.tgz#43d798b4d0e9f212048cf2d79b99643db54f67a1"
-  integrity sha512-f9UXUa0Nl4tM8mE5O5BgQupKE6o53N/kba/F4oJc6mMpTXt1qk0HYtU52WjR5WHz3sqrXh2HgcsDerrQZmQulQ==
+"@aries-framework/core@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@aries-framework/core/-/core-0.2.3.tgz#c7bfef6ed82c4bf462e1f02e11e0c3144e345a1d"
+  integrity sha512-0HtxidljOFhBMdXCx0p/rkO285d8tMreJYBHlNyVXYnPNAYw/OBDqfSxloMYf13kJfq/3AL0XZkoQOepuLZdrw==
   dependencies:
     "@multiformats/base-x" "^4.0.1"
     "@stablelib/ed25519" "^1.0.2"
@@ -54,12 +54,12 @@
   dependencies:
     rxjs "^7.2.0"
 
-"@aries-framework/react-native@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@aries-framework/react-native/-/react-native-0.2.2.tgz#2b9055370d94ace7e2c07803150228d53954dcf6"
-  integrity sha512-7KGbqFy1HQPhRPbTJETRwoFFQWpPV6MUhHS+oniX06HCrhBau+3MLUlQSkCBFyuTQt7WgPK7y+9hut3mcuRzAQ==
+"@aries-framework/react-native@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@aries-framework/react-native/-/react-native-0.2.3.tgz#727ba07b94662ffdc5471c94d374e4d008fbf8c3"
+  integrity sha512-vTdLN/sPKLEEtTqeLJbzWEFwaRm7P0xjq+KZer95Et8s4LQrn1CnRQzurha/gsZoIJyXaQg5XZC7lS+RosdW6g==
   dependencies:
-    "@aries-framework/core" "0.2.2"
+    "@aries-framework/core" "0.2.3"
     "@azure/core-asynciterator-polyfill" "^1.0.0"
     events "^3.3.0"
 
