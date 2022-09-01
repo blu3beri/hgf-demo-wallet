@@ -1,3 +1,4 @@
+import 'expo-dev-client'
 import React, { useEffect, useState } from 'react'
 import AgentProvider from '@aries-framework/react-hooks'
 import { initializeAgent } from './src/agent'
