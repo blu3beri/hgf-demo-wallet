@@ -1,36 +1,32 @@
-<h1 align="center" ><b>Hyperledger Demo Wallet</b></h1>
-
+<h1 align="center">How To Build a Self-Sovereign Identity Agent With Hyperledger Aries Framework JavaScript</h1>
+<h4 align="center">14 September 2022 | 09:00 - 12:30</h4>
+<h5 align="center">Jakub Koci, Timo Glastra and Berend Sliedrecht</h5>
 <p align="center">
-  <a href="https://typescriptlang.org">
-    <img src="https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg" />
-  </a>
+<br>
+<br>
+<br>
+<img
+  alt="Hyperledger Aries logo"
+  src="https://raw.githubusercontent.com/hyperledger/aries-framework-javascript/aa31131825e3331dc93694bc58414d955dcb1129/images/aries-logo.png"
+  height="250px"
+/>
+<br>
+<br>
+<br>
 </p>
 
-<p align="center">
-  <a href="#getting-started">Getting started</a> 
-  &nbsp;|&nbsp;
-  <a href="#license">License</a> 
-</p>
+# Table of content
 
----
+- [Section 1: Agent Initialization](#Section-1:-Agent-Initialization)
+- [Section 2: Receiving An Invitation](#Section-2:-Receiving-An-Invitation)
+- [Section 3: Accepting A Credential](#Section-3:-Accepting-A-Credential)
+- [Section 4: Sharing A Proof](#Section-4:-Sharing-A-Proof)
 
-## Getting Started
 
-```console
-yarn install
+## Section 1: Agent Initialization
 
-yarn prebuild
+## Section 2: Receiving An Invitation
 
-yarn android
+## Section 3: Accepting A Credential
 
-yarn ios // Only works on real devices
-```
-
-## Contributing
-
-Is there something you'd like to fix or add? Great, we love community
-contributions! To get involved, please follow our [contribution guidelines](./CONTRIBUTING.md).
-
-## License
-
-Apache 2.0
+## Section 4: Sharing A Proof
