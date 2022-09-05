@@ -1,6 +1,11 @@
 import { ExpoConfig } from '@expo/config-types'
 
 const config: ExpoConfig = {
+  extra: {
+    eas: {
+      projectId: "75a2ce55-0498-4b55-b5b1-b9b30487eae2"
+    }
+  },
   name: 'Demo Wallet',
   owner: "hgf-workshop",
   slug: 'demo-wallet-hyperledger',
@@ -19,6 +24,7 @@ const config: ExpoConfig = {
   },
   assetBundlePatterns: ['**/*'],
   ios: {
+    bitcode: "Debug",
     supportsTablet: true,
     bundleIdentifier: 'demo.wallet.hyperledger',
     infoPlist: {

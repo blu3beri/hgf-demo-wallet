@@ -4,39 +4,45 @@ import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs'
-import { Text, useTheme } from 'native-base'
+import { useTheme } from 'native-base'
 import { Proofs } from '../pages/proofs'
 import { Credentials } from '../pages/credentials'
 import { Connections } from '../pages/connections'
 import { TabParamList } from './navigation'
-import { useStackNavigation } from '../hooks'
-import { Header } from '../components'
+import {
+  useCredentialByState,
+  useProofByState,
+} from '@aries-framework/react-hooks'
+import { CredentialState, ProofState } from '@aries-framework/core'
 
 const getTabOptions = (
-  title: 'Credentials' | 'Connections' | 'Proofs',
-  iconName: 'wallet' | 'people' | 'ribbon'
+  iconName: 'wallet' | 'people' | 'documents',
+  badge: number = 0
 ): BottomTabNavigationOptions => {
   const { colors } = useTheme()
-  const navigation = useStackNavigation()
-
   return {
-    header: () => (
-      <Header
-        title={title}
-        onPressIcon={() => navigation.navigate('BarcodeScanner')}
-      />
-    ),
-    tabBarStyle: { paddingTop: 5, borderTopWidth: 0 },
-    tabBarLabel: ({ focused }) => (
-      <Text color={focused ? colors.tertiary[500] : colors.text[500]}>
-        {title}
-      </Text>
-    ),
+    tabBarStyle: {
+      height: 80,
+      backgroundColor: colors.tertiary[100],
+      borderTopWidth: 0,
+      elevation: 0,
+    },
+    tabBarBadge: badge ? badge.toString() : undefined,
+    headerTitleStyle: {
+      fontSize: 38,
+      fontWeight: '700',
+      color: colors.black,
+    },
+    headerStyle: {
+      height: 100,
+      elevation: 0,
+    },
+    tabBarShowLabel: false,
     tabBarIcon: ({ focused }) => (
       <Ionicons
         name={iconName}
-        size={24}
-        color={focused ? colors.tertiary[500] : colors.text[500]}
+        size={32}
+        color={focused ? colors.primary[500] : colors.primary[200]}
       />
     ),
   }
@@ -44,22 +50,41 @@ const getTabOptions = (
 
 export const Tabs = () => {
   const Tab = createBottomTabNavigator<TabParamList>()
+
+  const pendingCredentialOffers = useCredentialByState(
+    CredentialState.OfferReceived
+  ).length
+  const pendingCredentialRequest = useCredentialByState(
+    CredentialState.RequestReceived
+  ).length
+
+  const pendingProofRequest = useProofByState(ProofState.RequestReceived).length
+  const pendingProofProposal = useProofByState(
+    ProofState.ProposalReceived
+  ).length
+
   return (
     <Tab.Navigator initialRouteName="Credentials">
       <Tab.Screen
-        name="Contacts"
-        component={Connections}
-        options={getTabOptions('Connections', 'people')}
+        name="Proofs"
+        component={Proofs}
+        options={getTabOptions(
+          'documents',
+          pendingProofRequest + pendingProofProposal
+        )}
       />
       <Tab.Screen
         name="Credentials"
         component={Credentials}
-        options={getTabOptions('Credentials', 'wallet')}
+        options={getTabOptions(
+          'wallet',
+          pendingCredentialOffers + pendingCredentialRequest
+        )}
       />
       <Tab.Screen
-        name="Proofs"
-        component={Proofs}
-        options={getTabOptions('Proofs', 'ribbon')}
+        name="Contacts"
+        component={Connections}
+        options={getTabOptions('people', 0)}
       />
     </Tab.Navigator>
   )

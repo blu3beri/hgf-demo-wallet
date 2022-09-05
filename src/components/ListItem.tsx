@@ -19,7 +19,7 @@ export const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
     <Pressable onPress={onPress}>
       <Box
         borderBottomWidth="1"
-        borderColor="secondary.200"
+        borderColor="tertiary.200"
         pl="4"
         pr="5"
         py="3"

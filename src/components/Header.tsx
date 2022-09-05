@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons'
-import { Box, Text, useTheme } from 'native-base'
+import { Box, Text } from 'native-base'
 import React from 'react'
 
 type HeaderProps = {
@@ -8,8 +8,6 @@ type HeaderProps = {
 }
 
 export const Header: React.FC<HeaderProps> = ({ title, onPressIcon }) => {
-  const { colors } = useTheme()
-
   return (
     <Box height={130}>
       <Text
