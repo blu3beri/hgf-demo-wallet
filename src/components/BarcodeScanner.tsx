@@ -3,7 +3,6 @@ import { Text, Center, useTheme } from 'native-base'
 import { StyleSheet, Alert } from 'react-native'
 import { BarCodeScanner as BCS } from 'expo-barcode-scanner'
 import { useStackNavigation } from '../hooks'
-import { ConnectionInvitationMessage } from '@aries-framework/core'
 import { useToast } from 'native-base'
 import { useAgent } from '@aries-framework/react-hooks'
 
@@ -45,14 +44,18 @@ export const BarcodeScanner = () => {
     agent?.oob
       .parseInvitationShortUrl(scannedData)
       .then((invite) => {
-        Alert.alert('Invitation', `Received invitation from: ${invite.label}`, [
-          {
-            text: 'cancel',
-            onPress: () => navigation.goBack(),
-            style: 'cancel',
-          },
-          { text: 'confirm', onPress: () => void onAcceptInvitation() },
-        ])
+        Alert.alert(
+          'Invitation',
+          `Received invitation from: ${invite.label}`,
+          [
+            {
+              text: 'cancel',
+              onPress: () => navigation.goBack(),
+              style: 'cancel',
+            },
+            { text: 'confirm', onPress: () => void onAcceptInvitation() },
+          ]
+        )
       })
       .catch((error) => {
         console.error(error)
