@@ -27,6 +27,9 @@ const getTabOptions = (
       borderTopWidth: 0,
       elevation: 0,
     },
+    tabBarBadgeStyle: {
+      top: 18
+    },
     tabBarBadge: badge ? badge.toString() : undefined,
     headerTitleStyle: {
       fontSize: 38,

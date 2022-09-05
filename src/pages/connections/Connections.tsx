@@ -31,7 +31,7 @@ export const Connections = () => {
           >
             {item.imageUrl ? (
               <Avatar
-                background={colors.gray[200]}
+                background={colors.white}
                 size={50}
                 source={{
                   uri: item.imageUrl,
