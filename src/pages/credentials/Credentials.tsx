@@ -17,7 +17,7 @@ export const Credentials = () => {
   const [attributes, setAttributes] = useState([])
 
   useEffect(() => {
-    const run = async () => {
+    void (async () => {
       for (const record of records) {
         const data = await agent.credentials.getFormatData(record.id)
         const newAttributes = {}
@@ -25,11 +25,10 @@ export const Credentials = () => {
           ({ name, value }) => (newAttributes[name] = value)
         )
 
-        setNames([...names, formatSchemaName(data.offer?.indy?.schema_id)])
-        setAttributes([...attributes, newAttributes])
+        setNames((n) => [...n, formatSchemaName(data.offer?.indy?.schema_id)])
+        setAttributes((a) => [...a, newAttributes])
       }
-    }
-    void run()
+    })()
   }, [records])
 
   const onShowDetails = async (
@@ -56,7 +55,11 @@ export const Credentials = () => {
           title={names[index] ?? 'Unknown credential'}
           subtitle={item.state}
         >
-          <Ionicons size={50} name="document-outline" color={colors.primary[500]} />
+          <Ionicons
+            size={50}
+            name="document-outline"
+            color={colors.secondary[500]}
+          />
         </ListItem>
       )}
       keyExtractor={(item) => item.id}

@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react'
-import { Box, Button, FlatList, useTheme } from 'native-base'
+import { Box, FlatList, Pressable, useTheme, Text } from 'native-base'
 import { useStackNavigation } from '../../hooks'
 import { useAgent, useCredentialById } from '@aries-framework/react-hooks'
 import { CredentialState } from '@aries-framework/core'
-import { SafeAreaView, Alert } from 'react-native'
+import { Alert } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useToast } from 'native-base'
 import { ListItem } from '../../components'
-import { color } from 'native-base/lib/typescript/theme/styled-system'
+import {
+  acceptCredential,
+  declineCredential,
+  deleteCredential as _deleteCredential,
+} from '../../workshop'
 
 export type CredentialDetailsRouteParams = {
   id: string
@@ -37,14 +41,14 @@ export const CredentialDetails: React.FC<CredentialDetailsProps> = ({
       title: name,
       headerShown: true,
       headerRight: () => (
-        <Ionicons name='trash-outline' size={24} onPress={deleteCredential} />
+        <Ionicons name="trash-outline" size={24} onPress={deleteCredential} />
       ),
     })
   }, [])
 
   const deleteCredential = () => {
     const onConfirm = () => {
-      void agent.credentials.deleteById(id)
+      void _deleteCredential(agent, id)
       navigation.goBack()
     }
 
@@ -57,7 +61,7 @@ export const CredentialDetails: React.FC<CredentialDetailsProps> = ({
   const onDeclineCredential = () => {
     try {
       const onConfirm = async () => {
-        await agent.credentials.declineOffer(id)
+        declineCredential(agent, id)
         navigation.goBack()
       }
       Alert.alert(
@@ -79,21 +83,28 @@ export const CredentialDetails: React.FC<CredentialDetailsProps> = ({
   }
 
   const onAcceptCredential = async () => {
-    try {
-      await agent.credentials.acceptOffer({ credentialRecordId: id })
-    } catch (e) {
+    await acceptCredential(agent, id).catch((e) => {
       console.error(e)
       toast.show({
         placement: 'top',
         title: 'Something went wrong while accepting the credential',
         background: colors.error[500],
       })
-    }
+    })
     navigation.goBack()
   }
 
+  if (!attributes) {
+    toast.show({
+      placement: 'top',
+      title: 'Invalid credential',
+      background: colors.error[500],
+    })
+    void declineCredential(agent, id)
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <>
       <FlatList
         data={Object.entries(attributes)}
         renderItem={({ item }) => (
@@ -102,25 +113,49 @@ export const CredentialDetails: React.FC<CredentialDetailsProps> = ({
         keyExtractor={(item) => item[0]}
       />
       {record.state === CredentialState.OfferReceived && (
-        <Box flexDir="row" h={75}>
-          <Button
-            flex={1}
-            borderRadius={0}
-            backgroundColor="red.500"
-            onPress={onDeclineCredential}
-          >
-            Decline
-          </Button>
-          <Button
-            flex={1}
-            borderRadius={0}
-            backgroundColor="success.500"
-            onPress={onAcceptCredential}
-          >
-            Accept
-          </Button>
+        <Box
+          flexDir="row"
+          h={95}
+          padding="2"
+          backgroundColor={colors.tertiary[100]}
+          paddingBottom={4}
+        >
+          <Pressable flex={1} onPress={onDeclineCredential}>
+            {({ isPressed }) => (
+              <Box
+                justifyContent="center"
+                alignItems="center"
+                flex={1}
+                margin={2}
+                borderRadius={16}
+                backgroundColor={isPressed ? 'gray.300' : 'gray.200'}
+              >
+                <Text color="black" fontWeight="600" fontSize="md">
+                  Decline
+                </Text>
+              </Box>
+            )}
+          </Pressable>
+          <Pressable flex={1} onPress={onAcceptCredential}>
+            {({ isPressed }) => (
+              <Box
+                justifyContent="center"
+                alignItems="center"
+                flex={1}
+                margin={2}
+                borderRadius={16}
+                backgroundColor={
+                  isPressed ? colors.secondary[600] : colors.secondary[500]
+                }
+              >
+                <Text color="white" fontWeight="600" fontSize="md">
+                  Accept
+                </Text>
+              </Box>
+            )}
+          </Pressable>
         </Box>
       )}
-    </SafeAreaView>
+    </>
   )
 }

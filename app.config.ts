@@ -6,7 +6,7 @@ const config: ExpoConfig = {
       projectId: "75a2ce55-0498-4b55-b5b1-b9b30487eae2"
     }
   },
-  name: 'Demo Wallet',
+  name: 'Workshop Demo',
   owner: "hgf-workshop",
   slug: 'demo-wallet-hyperledger',
   version: '1.0.0',
@@ -24,7 +24,7 @@ const config: ExpoConfig = {
   },
   assetBundlePatterns: ['**/*'],
   ios: {
-    bitcode: "Debug",
+    bitcode: false,
     supportsTablet: true,
     bundleIdentifier: 'demo.wallet.hyperledger',
     infoPlist: {

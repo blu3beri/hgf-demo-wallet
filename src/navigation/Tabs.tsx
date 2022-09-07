@@ -14,6 +14,10 @@ import {
   useProofByState,
 } from '@aries-framework/react-hooks'
 import { CredentialState, ProofState } from '@aries-framework/core'
+import { Fab } from '../components/Fab'
+import { Platform } from 'react-native'
+
+const isIos = () => Platform.OS === 'ios'
 
 const getTabOptions = (
   iconName: 'wallet' | 'people' | 'documents',
@@ -28,11 +32,11 @@ const getTabOptions = (
       elevation: 0,
     },
     tabBarBadgeStyle: {
-      top: 18
+      top: 18,
     },
     tabBarBadge: badge ? badge.toString() : undefined,
     headerTitleStyle: {
-      fontSize: 38,
+      fontSize: isIos() ? 16 : 38,
       fontWeight: '700',
       color: colors.black,
     },
@@ -45,7 +49,7 @@ const getTabOptions = (
       <Ionicons
         name={iconName}
         size={32}
-        color={focused ? colors.primary[500] : colors.primary[200]}
+        color={focused ? colors.tertiary[700] : colors.tertiary[400]}
       />
     ),
   }
@@ -67,28 +71,31 @@ export const Tabs = () => {
   ).length
 
   return (
-    <Tab.Navigator initialRouteName="Credentials">
-      <Tab.Screen
-        name="Proofs"
-        component={Proofs}
-        options={getTabOptions(
-          'documents',
-          pendingProofRequest + pendingProofProposal
-        )}
-      />
-      <Tab.Screen
-        name="Credentials"
-        component={Credentials}
-        options={getTabOptions(
-          'wallet',
-          pendingCredentialOffers + pendingCredentialRequest
-        )}
-      />
-      <Tab.Screen
-        name="Contacts"
-        component={Connections}
-        options={getTabOptions('people', 0)}
-      />
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator initialRouteName="Credentials">
+        <Tab.Screen
+          name="Proofs"
+          component={Proofs}
+          options={getTabOptions(
+            'documents',
+            pendingProofRequest + pendingProofProposal
+          )}
+        />
+        <Tab.Screen
+          name="Credentials"
+          component={Credentials}
+          options={getTabOptions(
+            'wallet',
+            pendingCredentialOffers + pendingCredentialRequest
+          )}
+        />
+        <Tab.Screen
+          name="Contacts"
+          component={Connections}
+          options={getTabOptions('people', 0)}
+        />
+      </Tab.Navigator>
+      <Fab />
+    </>
   )
 }

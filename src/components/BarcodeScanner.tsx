@@ -5,6 +5,8 @@ import { BarCodeScanner as BCS } from 'expo-barcode-scanner'
 import { useStackNavigation } from '../hooks'
 import { useToast } from 'native-base'
 import { useAgent } from '@aries-framework/react-hooks'
+import { acceptInvitation, parseInvitation } from '../workshop'
+import { parse } from 'react-native-svg'
 
 export const BarcodeScanner = () => {
   const navigation = useStackNavigation()
@@ -16,16 +18,14 @@ export const BarcodeScanner = () => {
   const [scannedData, setScannedData] = useState('')
 
   const onAcceptInvitation = async () => {
-    await agent?.oob
-      .receiveInvitationFromUrl(scannedData, { reuseConnection: true })
-      .catch((e) => {
-        toast.show({
-          placement: 'top',
-          title: 'Something went wrong while accepting the notification',
-          background: colors.error[500],
-        })
-        console.error(e)
+    await acceptInvitation(agent, scannedData).catch((e) => {
+      toast.show({
+        placement: 'top',
+        title: 'Something went wrong while accepting the notification',
+        background: colors.error[500],
       })
+      console.error(e)
+    })
     navigation.goBack()
   }
 
@@ -40,24 +40,12 @@ export const BarcodeScanner = () => {
 
   useEffect(() => {
     if (!scannedData) return
-
-    agent?.oob
-      .parseInvitationShortUrl(scannedData)
-      .then((invite) => {
-        Alert.alert(
-          'Invitation',
-          `Received invitation from: ${invite.label}`,
-          [
-            {
-              text: 'cancel',
-              onPress: () => navigation.goBack(),
-              style: 'cancel',
-            },
-            { text: 'confirm', onPress: () => void onAcceptInvitation() },
-          ]
-        )
-      })
-      .catch((error) => {
+    parseInvitation(
+      agent,
+      scannedData,
+      onAcceptInvitation,
+      navigation.goBack,
+      (error) => {
         console.error(error)
         toast.show({
           placement: 'top',
@@ -65,7 +53,8 @@ export const BarcodeScanner = () => {
           background: colors.error[500],
         })
         navigation.goBack()
-      })
+      }
+    )
   }, [scannedData])
 
   const handleBarCodeScanned = ({ data }) => setScannedData(data)

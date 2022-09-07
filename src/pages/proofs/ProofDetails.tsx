@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, FlatList, Text, useTheme } from 'native-base'
+import { Box, FlatList, Pressable, Text, useTheme } from 'native-base'
 import { useStackNavigation } from '../../hooks'
-import {
-  useAgent,
-  useProofById,
-  useProofByState,
-} from '@aries-framework/react-hooks'
+import { useAgent, useProofById } from '@aries-framework/react-hooks'
 import { ProofState } from '@aries-framework/core'
-import { SafeAreaView, Alert } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useToast } from 'native-base'
 import {
@@ -15,6 +10,11 @@ import {
   FormattedRequestedCredentials,
 } from '../../utils/formatRequestedCredentials'
 import { ListItem } from '../../components'
+import {
+  acceptProof,
+  declineProof,
+  deleteProof as _deleteProof,
+} from '../../workshop'
 
 export type ProofDetailsRouteParams = {
   id: string
@@ -82,7 +82,7 @@ export const ProofDetails: React.FC<ProofDetailsProps> = ({ route }) => {
 
   const deleteProof = () => {
     const onConfirm = () => {
-      void agent.proofs.deleteById(id)
+      void _deleteProof(agent, id)
       navigation.goBack()
     }
 
@@ -95,7 +95,7 @@ export const ProofDetails: React.FC<ProofDetailsProps> = ({ route }) => {
   const onDeclineProof = () => {
     try {
       const onConfirm = async () => {
-        await agent.proofs.declineRequest(id)
+        await declineProof(agent, id)
         navigation.goBack()
       }
       Alert.alert('Decline', 'Are you sure you want to decline the proof?', [
@@ -114,12 +114,7 @@ export const ProofDetails: React.FC<ProofDetailsProps> = ({ route }) => {
 
   const onAcceptProof = async () => {
     try {
-      const creds = await agent.proofs.getRequestedCredentialsForProofRequest(
-        id
-      )
-      const requestedCredentials =
-        agent.proofs.autoSelectCredentialsForProofRequest(creds)
-      void agent.proofs.acceptRequest(id, requestedCredentials)
+      acceptProof(agent, id)
       navigation.goBack()
     } catch (e) {
       console.error(e)
@@ -135,7 +130,7 @@ export const ProofDetails: React.FC<ProofDetailsProps> = ({ route }) => {
   const showCredentialInfo = (id: string) => Alert.alert(`Credential id: ${id}`)
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <>
       <FlatList
         data={fields}
         keyExtractor={(item) => item.name}
@@ -149,25 +144,49 @@ export const ProofDetails: React.FC<ProofDetailsProps> = ({ route }) => {
         )}
       />
       {record.state === ProofState.RequestReceived && (
-        <Box flexDir="row" h={75}>
-          <Button
-            flex={1}
-            borderRadius={0}
-            backgroundColor="red.500"
-            onPress={onDeclineProof}
-          >
-            Decline
-          </Button>
-          <Button
-            flex={1}
-            borderRadius={0}
-            backgroundColor="success.500"
-            onPress={onAcceptProof}
-          >
-            Accept
-          </Button>
+        <Box
+          flexDir="row"
+          h={95}
+          padding="2"
+          backgroundColor={colors.tertiary[100]}
+          paddingBottom={4}
+        >
+          <Pressable flex={1} onPress={onDeclineProof}>
+            {({ isPressed }) => (
+              <Box
+                justifyContent="center"
+                alignItems="center"
+                flex={1}
+                margin={2}
+                borderRadius={16}
+                backgroundColor={isPressed ? 'gray.300' : 'gray.200'}
+              >
+                <Text color="black" fontWeight="600" fontSize="md">
+                  Decline
+                </Text>
+              </Box>
+            )}
+          </Pressable>
+          <Pressable flex={1} onPress={onAcceptProof}>
+            {({ isPressed }) => (
+              <Box
+                justifyContent="center"
+                alignItems="center"
+                flex={1}
+                margin={2}
+                borderRadius={16}
+                backgroundColor={
+                  isPressed ? colors.secondary[600] : colors.secondary[500]
+                }
+              >
+                <Text color="white" fontWeight="600" fontSize="md">
+                  Accept
+                </Text>
+              </Box>
+            )}
+          </Pressable>
         </Box>
       )}
-    </SafeAreaView>
+    </>
   )
 }
