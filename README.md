@@ -15,6 +15,8 @@
 <br>
 </p>
 
+Link to our discord: https://discord.gg/VkmcsFTH
+
 ## Table of content
 
 - [Context](#Context)
