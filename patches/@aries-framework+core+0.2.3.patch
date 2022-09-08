@@ -1,0 +1,39 @@
+diff --git a/node_modules/@aries-framework/core/build/modules/oob/messages/HandshakeReuseAcceptedMessage.js b/node_modules/@aries-framework/core/build/modules/oob/messages/HandshakeReuseAcceptedMessage.js
+index abf12bb..9a29b0f 100644
+--- a/node_modules/@aries-framework/core/build/modules/oob/messages/HandshakeReuseAcceptedMessage.js
++++ b/node_modules/@aries-framework/core/build/modules/oob/messages/HandshakeReuseAcceptedMessage.js
+@@ -26,7 +26,7 @@ class HandshakeReuseAcceptedMessage extends AgentMessage_1.AgentMessage {
+         }
+     }
+ }
+-HandshakeReuseAcceptedMessage.type = messageType_1.parseMessageType('https://didcomm.org/out-of-band/1.1/handshake-reuse-accepted');
++HandshakeReuseAcceptedMessage.type = messageType_1.parseMessageType('https://didcomm.org/out-of-band/1.0/handshake-reuse-accepted');
+ __decorate([
+     messageType_1.IsValidMessageType(HandshakeReuseAcceptedMessage.type),
+     __metadata("design:type", Object)
+diff --git a/node_modules/@aries-framework/core/build/modules/oob/messages/HandshakeReuseMessage.js b/node_modules/@aries-framework/core/build/modules/oob/messages/HandshakeReuseMessage.js
+index da672ef..dd1db28 100644
+--- a/node_modules/@aries-framework/core/build/modules/oob/messages/HandshakeReuseMessage.js
++++ b/node_modules/@aries-framework/core/build/modules/oob/messages/HandshakeReuseMessage.js
+@@ -26,7 +26,7 @@ class HandshakeReuseMessage extends AgentMessage_1.AgentMessage {
+         }
+     }
+ }
+-HandshakeReuseMessage.type = messageType_1.parseMessageType('https://didcomm.org/out-of-band/1.1/handshake-reuse');
++HandshakeReuseMessage.type = messageType_1.parseMessageType('https://didcomm.org/out-of-band/1.0/handshake-reuse');
+ __decorate([
+     messageType_1.IsValidMessageType(HandshakeReuseMessage.type),
+     __metadata("design:type", Object)
+diff --git a/node_modules/@aries-framework/core/build/modules/oob/messages/OutOfBandInvitation.js b/node_modules/@aries-framework/core/build/modules/oob/messages/OutOfBandInvitation.js
+index dea11a1..29067e8 100644
+--- a/node_modules/@aries-framework/core/build/modules/oob/messages/OutOfBandInvitation.js
++++ b/node_modules/@aries-framework/core/build/modules/oob/messages/OutOfBandInvitation.js
+@@ -100,7 +100,7 @@ class OutOfBandInvitation extends AgentMessage_1.AgentMessage {
+         return this.getServices().filter((service) => typeof service !== 'string');
+     }
+ }
+-OutOfBandInvitation.type = messageType_1.parseMessageType('https://didcomm.org/out-of-band/1.1/invitation');
++OutOfBandInvitation.type = messageType_1.parseMessageType('https://didcomm.org/out-of-band/1.0/invitation');
+ __decorate([
+     class_transformer_1.Transform(({ value }) => messageType_1.replaceLegacyDidSovPrefix(value), {
+         toClassOnly: true,
