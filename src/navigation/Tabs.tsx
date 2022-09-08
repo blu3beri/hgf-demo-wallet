@@ -26,7 +26,8 @@ const getTabOptions = (
   const { colors } = useTheme()
   return {
     tabBarStyle: {
-      height: 80,
+      paddingTop: 5,
+      height: 85,
       backgroundColor: colors.tertiary[100],
       borderTopWidth: 0,
       elevation: 0,
