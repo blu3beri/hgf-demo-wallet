@@ -21,11 +21,17 @@ Link to the Hyperledger Global Forum Channel: https://discord.com/channels/90519
 
 ## Table of content
 
-- [Context](#Context)
-- [Section 1: Agent Initialization](#Section-1:-Agent-Initialization)
-- [Section 2: Receiving An Invitation](#Section-2:-Receiving-An-Invitation)
-- [Section 3: Accepting A Credential](#Section-3:-Accepting-A-Credential)
-- [Section 4: Sharing A Proof](#Section-4:-Sharing-A-Proof)
+- Prerequisites
+- Context
+- Section 1: Agent Initialization
+- Section 2: Receiving An Invitation
+- Section 3: Accepting A Credential
+- Section 4: Sharing A Proof
+
+## Prerequisites
+
+- Node.js https://nodejs.org/en/download/
+- Git https://git-scm.com
 
 ## Context
 
@@ -34,6 +40,8 @@ Everything that will be programmed within this workshop will be done in the
 implementation the of the specific feature to make the application work again.
 
 ## Section 1: Agent Initialization
+
+> file: `agent-initialization.ts`
 
 Before we even begin with creating a connection between two agents, we must
 initialize our agent first. This will be done in the `agent-initialization.ts`
@@ -47,6 +55,8 @@ agent. The goal of this section is to configure it in a minimal way and check
 what all our options are.
 
 ## Section 2: Receiving An Invitation
+
+> files: `agent-initialization.ts`, `receiving-an-invitation.ts`
 
 Now that our agent is setup, we can starting using it! The first thing we would
 like to do is create a connection with another agent. This does require some
@@ -73,4 +83,41 @@ parse invitation function and a receive invitation function.
 
 ## Section 3: Accepting A Credential
 
+> files: `agent-initialization.ts`, `accepting-a-credential.ts`
+
+Awesome! We have a connection with an issuing agent and now we need to be able
+to receive credentials from them. Before we even begin with this, we must
+update out agent configuration again to support this new use case. All the
+data, like the schema and credential definition are registered on a ledger. So,
+in order to receive credentials we must connect to the same ledger to be able
+to retrieve this data. 
+
+The agent needs the following attributes added:
+
+1. `indyLedgers`
+2. `autoAcceptCredential`
+
+Now that the agent is connected to the correct ledger we are able to receive
+credentials from the issuer. 
+
+There are, within this demo, three things that we can do this a credential. We
+can accept it and add it to our wallet, we could also decline it or even delete
+the credential afterwards from our wallet. We must implement all these three
+methods in the `accepting-a-credential.ts` file.
+
 ## Section 4: Sharing A Proof
+
+> file: `sharing-a-proof.ts`
+
+We have our first credential, and ofcourse now we want to share it. Sharing a
+credential can get very complex, because of the restrictions. A verifier can
+request that specific fields come from specific credentials and maybe a
+predicate even saying that you must be older than 21. Luckily, AFJ provides
+some utility methods to make it a lot easier.
+
+In order to complete this section we must be able to respond to an incoming
+proof with the correct credentials, which can be done with the following steps:
+
+1. Get all the credentials that match the proof request
+2. Select the first instance that matches the request
+3. Respond to the proof request with only the required credentials
