@@ -14,19 +14,19 @@ import { GENESIS_BCORVIN_TEST_NET } from '../ledgers'
 
 export async function initializeAgent(): Promise<Agent> {
   const config: InitConfig = {
-    label: 'wallet-demo-id',
+    label: 'wallet-demo-id-new-new-new-new',
     walletConfig: {
-      id: 'wallet-demo-id',
-      key: 'testkey0000000000000000000000000',
+      id: 'wallet-demo-id-new-new-new-new',
+      key: 'testkey0000000000000000000000001',
     },
     autoAcceptConnections: true,
     autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
     autoAcceptProofs: AutoAcceptProof.ContentApproved,
-    logger: new ConsoleLogger(LogLevel.off),
+    logger: new ConsoleLogger(LogLevel.debug),
 
     indyLedgers: [
       {
-        id: 'bcovrin-test-net',
+        id: 'genesis-bcovrin-test-net',
         isProduction: false,
         genesisTransactions: GENESIS_BCORVIN_TEST_NET,
       },

@@ -6,7 +6,6 @@ import { useStackNavigation } from '../hooks'
 import { useToast } from 'native-base'
 import { useAgent } from '@aries-framework/react-hooks'
 import { acceptInvitation, parseInvitation } from '../workshop'
-import { parse } from 'react-native-svg'
 
 export const BarcodeScanner = () => {
   const navigation = useStackNavigation()
@@ -40,12 +39,22 @@ export const BarcodeScanner = () => {
 
   useEffect(() => {
     if (!scannedData) return
-    parseInvitation(
-      agent,
-      scannedData,
-      onAcceptInvitation,
-      navigation.goBack,
-      (error) => {
+    parseInvitation(agent, scannedData)
+      .then((invite) => {
+        Alert.alert(
+          'Invitation',
+          `Received invitation from: ${invite.label}`,
+          [
+            {
+              text: 'cancel',
+              onPress: navigation.goBack,
+              style: 'cancel',
+            },
+            { text: 'confirm', onPress: onAcceptInvitation },
+          ]
+        )
+      })
+      .catch((error) => {
         console.error(error)
         toast.show({
           placement: 'top',
@@ -53,8 +62,7 @@ export const BarcodeScanner = () => {
           background: colors.error[500],
         })
         navigation.goBack()
-      }
-    )
+      })
   }, [scannedData])
 
   const handleBarCodeScanned = ({ data }) => setScannedData(data)

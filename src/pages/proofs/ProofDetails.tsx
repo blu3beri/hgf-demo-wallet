@@ -56,6 +56,7 @@ export const ProofDetails: React.FC<ProofDetailsProps> = ({ route }) => {
         )
         const requestedCredentials =
           agent.proofs.autoSelectCredentialsForProofRequest(creds)
+          console.log(requestedCredentials)
 
         const formattedCredentials = formatRequestedCredentials(
           record,

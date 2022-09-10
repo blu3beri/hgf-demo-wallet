@@ -17,6 +17,8 @@
 
 Link to our discord: https://discord.gg/VkmcsFTH
 
+Link to the Hyperledger Global Forum Channel: https://discord.com/channels/905194001349627914/1017366759168286753
+
 ## Table of content
 
 - [Context](#Context)
@@ -37,11 +39,37 @@ Before we even begin with creating a connection between two agents, we must
 initialize our agent first. This will be done in the `agent-initialization.ts`
 file.
 
-The function here is called `initializeAgent` and it should return a class
-of `Agent`. A very minimal agent does not need a lot, but there are some quirks
-for specific environments, like React Native.
+The function here is called `initializeAgent` and it should return a class of
+`Agent`. A very minimal agent does not need a lot, but there are some quirks
+for specific environments, like React Native. In the configuration we can put
+things like automatically accept all incoming credentials or the name of our
+agent. The goal of this section is to configure it in a minimal way and check
+what all our options are.
 
 ## Section 2: Receiving An Invitation
+
+Now that our agent is setup, we can starting using it! The first thing we would
+like to do is create a connection with another agent. This does require some
+additional work in the agent configuration and some code where we use the
+agent. The agent initialization will happen again in the
+`agent-initialization.ts` file and the receiving of an invitation of another
+agent will happen in the `receiving-an-invitation.ts` file.
+
+The agent needs atleast the following attributes:
+
+1. `autoAcceptConnection`
+2. `mediation`
+3. A configured wallet
+4. In and outbound transport
+
+Receiving the invitation happens in three steps:
+
+1. Scanning a QR code with the invitaion url inside
+2. Parsing the invitation url to a invitation object
+3. Receiving the invitation on the agent
+
+The application provides a scanner and for this section we only have to add a
+parse invitation function and a receive invitation function.
 
 ## Section 3: Accepting A Credential
 
