@@ -33,6 +33,37 @@ Link to the Hyperledger Global Forum Channel: https://discord.com/channels/90519
 - Node.js https://nodejs.org/en/download/
 - Git https://git-scm.com
 
+## Starting
+
+To get started, clone the repository: 
+
+```console
+git clone https://github.com/blu3beri/hgf-demo-wallet.git
+```
+
+After cloning the repository we have to go into the folder and install yarn and our dependencies.
+
+```console
+cd hgf-demo-wallet
+npm install --global yarn
+yarn install
+```
+
+Now that everything is ready we can start our development server. This server will be used by the mobile application to get the code that we will be writing during this workshop.
+
+To start the server run the following command:
+
+```console
+yarn start
+```
+
+This will output some code and in here we have to find our local IP address.
+
+It will look something like this:
+
+![IP picture](./assets/ip-picture.png)
+
+
 ## Context
 
 Everything that will be programmed within this workshop will be done in the
