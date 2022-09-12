@@ -22,6 +22,7 @@ Link to the Hyperledger Global Forum Channel: https://discord.com/channels/90519
 ## Table of content
 
 - Prerequisites
+- Starting
 - Context
 - Section 1: Agent Initialization
 - Section 2: Receiving An Invitation
@@ -32,6 +33,21 @@ Link to the Hyperledger Global Forum Channel: https://discord.com/channels/90519
 
 - Node.js https://nodejs.org/en/download/
 - Git https://git-scm.com
+
+## Starting
+
+To get started, clone the repository: 
+
+```console
+git clone https://github.com/blu3beri/hgf-demo-wallet.git
+```
+
+After cloning the repository we have to go into it and install our dependencies.
+
+```console
+cd hgf-demo-wallet
+yarn install
+```
 
 ## Context
 
