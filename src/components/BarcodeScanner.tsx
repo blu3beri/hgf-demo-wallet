@@ -6,6 +6,7 @@ import { useStackNavigation } from '../hooks'
 import { useToast } from 'native-base'
 import { useAgent } from '@aries-framework/react-hooks'
 import { acceptInvitation, parseInvitation } from '../workshop'
+import { OutOfBandInvitation } from '@aries-framework/core'
 
 export const BarcodeScanner = () => {
   const navigation = useStackNavigation()
@@ -16,7 +17,7 @@ export const BarcodeScanner = () => {
   const [hasPermission, setHasPermission] = useState(null)
   const [scannedData, setScannedData] = useState('')
 
-  const onAcceptInvitation = async () => {
+  const onAcceptInvitation = async (scannedData: OutOfBandInvitation) => {
     await acceptInvitation(agent, scannedData).catch((e) => {
       toast.show({
         placement: 'top',
@@ -50,7 +51,7 @@ export const BarcodeScanner = () => {
               onPress: navigation.goBack,
               style: 'cancel',
             },
-            { text: 'confirm', onPress: onAcceptInvitation },
+            { text: 'confirm', onPress: () => onAcceptInvitation(invite) },
           ]
         )
       })
