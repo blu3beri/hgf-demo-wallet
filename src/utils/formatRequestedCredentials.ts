@@ -46,7 +46,7 @@ export const formatRequestedCredentials = (
 
     formattedCredentials.push({
       name: key,
-      value: `${predicateValue} ${predicateType} ${formattedValue}`,
+      value: `${formattedValue} ${predicateType} ${predicateValue}`,
       id: value.credentialId,
       isPredicate: true,
     })

@@ -15,6 +15,7 @@ import {
   declineProof,
   deleteProof as _deleteProof,
 } from '../../workshop'
+import { Alert } from 'react-native'
 
 export type ProofDetailsRouteParams = {
   id: string
